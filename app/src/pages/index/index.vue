@@ -1,13 +1,11 @@
 <template>
 	<view class="index">
 		
-		<uni-transition :isContentShow="tabbarActive==0">
-			<casem></casem>
-		</uni-transition>
+		<casem class="animate__animated" :class="{'animate__slideInRight':tabbarActive==0}" v-if="tabbarActive==0"></casem>
+		<consulting class="animate__animated" :class="{'animate__slideInRight':tabbarActive==1}" v-if="tabbarActive==1"></consulting>
+		<mine class="animate__animated" :class="{'animate__slideInRight':tabbarActive==2}" v-if="tabbarActive==2"></mine>
 		
-		
-		
-		<tabbar></tabbar>
+		<tabbar @change="tabbarChange"></tabbar>
 		
 		
 	</view>
@@ -25,20 +23,21 @@
 			}
 		},
 		components:{tabbar,casem,consulting,mine},
-		provide:{
-			_mainFuncInit(index){
-				this.tabbarActive = index
-			}
-		},
 		onLoad() {
-
+			
 		},
 		methods: {
-
+			tabbarChange(index){
+				
+				this.tabbarActive = index
+			}
 		}
 	}
 </script>
 
 <style lang="less" scoped>
-	
+
+	.index{
+		
+	}
 </style>

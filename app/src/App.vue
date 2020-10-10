@@ -15,11 +15,14 @@
 <style>
 	/*每个页面公共css */
 	@import url("//at.alicdn.com/t/font_2041681_rde6s50nsyi.css");
-	
+	@import url("animate.css");
 	.font_family{
 		font-size: 40rpx;
 	}
-	body{
+	.animate__animated{
+		animation-duration: .5s !important;
+	}
+	page{
 		background: url(assets/imgs/bg1.jpg) no-repeat 0 0;
 		background-size: 100% 100%;
 		background-repeat:no-repeat; 

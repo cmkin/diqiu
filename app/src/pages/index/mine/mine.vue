@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view class="index_mine">
 		mine
 	</view>
 </template>
@@ -22,4 +22,12 @@
 
 <style lang="less" scoped="scoped">
 	
+	.index_mine{
+		width: 100%;
+		min-height: 100vh;
+		background: url(../../../assets/imgs/bg1.jpg) no-repeat 0 0;
+		background-size: 100% 100%;
+		background-repeat:no-repeat; 
+		background-attachment:fixed;
+	}
 </style>

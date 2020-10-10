@@ -176,7 +176,7 @@
 				default: 0
 			}
 		},
-		inject: ['_mainFuncInit'], // 父级传递过来的函数
+		//inject: ['_mainFuncInit'], // 父级传递过来的函数
 		methods: {
 			/**
 			 * @name 初始化当前点击索引
@@ -192,7 +192,8 @@
 			 * */
 			switchTabFunc(index, Urls) {
 				this.active = index
-				this._mainFuncInit(index) // 回调父级函数
+				this.$emit("change",index)
+				//this._mainFuncInit(index) // 回调父级函数
 			}
 
 		}
