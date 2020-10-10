@@ -14,7 +14,7 @@
 
 <style>
 	/*每个页面公共css */
-	@import url("//at.alicdn.com/t/font_2041681_rde6s50nsyi.css");
+	@import url("assets/css/iconfont.css");
 	@import url("animate.css");
 	.font_family{
 		font-size: 40rpx;
