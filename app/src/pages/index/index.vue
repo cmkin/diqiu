@@ -1,17 +1,33 @@
 <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view>
-			<text class="title">{{title}}</text>
-		</view>
+	<view class="index">
+		
+		<uni-transition :isContentShow="tabbarActive==0">
+			<casem></casem>
+		</uni-transition>
+		
+		
+		
+		<tabbar></tabbar>
+		
+		
 	</view>
 </template>
 
 <script>
+	import tabbar from '_c/tabbar'
+	import casem from './case/case'
+	import consulting from './consulting/consulting'
+	import mine from './mine/mine'
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				tabbarActive:0
+			}
+		},
+		components:{tabbar,casem,consulting,mine},
+		provide:{
+			_mainFuncInit(index){
+				this.tabbarActive = index
 			}
 		},
 		onLoad() {
@@ -23,27 +39,6 @@
 	}
 </script>
 
-<style lang="less">
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin: 200rpx auto 50rpx auto;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 20rpx;
-		color: @test;
-	}
+<style lang="less" scoped>
+	
 </style>
