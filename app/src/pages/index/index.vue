@@ -23,7 +23,7 @@
 	}
 </script>
 
-<style>
+<style lang="less">
 	.content {
 		display: flex;
 		flex-direction: column;
@@ -43,7 +43,7 @@
 	}
 
 	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
+		font-size: 20rpx;
+		color: @test;
 	}
 </style>

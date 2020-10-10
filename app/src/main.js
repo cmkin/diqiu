@@ -3,6 +3,10 @@ import App from './App'
 
 Vue.config.productionTip = false
 
+import { test } from './utils/index.js'
+
+
+
 App.mpType = 'app'
 
 const app = new Vue({
