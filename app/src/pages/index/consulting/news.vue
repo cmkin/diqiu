@@ -1,7 +1,7 @@
 <template>
 	<view class="index_consulting_news">
 		<view class="items">
-			<view class="item">
+			<view class="item animate__animated animate__flipInX" v-for="item in 3">
 				<view class="left">
 					<view class="title">
 						《三体自求往事》全国图文攻略

@@ -4,9 +4,9 @@
 		
 		
 		
-		<strategy class="animate__animated" :class="{'animate__flipInX':tabActive==0}" v-if="tabActive==0"></strategy>
+		<strategy class="" v-if="tabActive==0"></strategy>
 		
-		<news class="animate__animated" :class="{'animate__flipInX':tabActive==1}" v-if="tabActive==1"></news>
+		<news class=""  v-if="tabActive==1"></news>
 		
 		
 	</view>
