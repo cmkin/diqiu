@@ -14,18 +14,26 @@
 
 <style>
 	/*每个页面公共css */
-	@import url("assets/css/iconfont.css");
+	@import url("https://at.alicdn.com/t/font_2041681_rde6s50nsyi.css");
 	@import url("animate.css");
+	@font-face {
+	  font-family: "regular";
+	  src: url('./assets/fonts/RTWSYueGoTrial-Regular.otf');
+	 
+	}
 	.font_family{
 		font-size: 40rpx;
 	}
 	.animate__animated{
 		animation-duration: .5s !important;
 	}
+	
 	page{
-		background: url(assets/imgs/bg1.jpg) no-repeat 0 0;
+		font-family: 'regular';
+		background: url(assets/imgs/bg1.png) no-repeat 0 0;
 		background-size: 100% 100%;
 		background-repeat:no-repeat; 
 		background-attachment:fixed;
+		font-size: 24rpx;
 	}
 </style>

@@ -1,11 +1,10 @@
 <style scoped lang="less">
 	.tabbarMain {
-		height: 120rpx;
+		
 	}
 
 	.tabbarMainIphone {
-		height: 256upx;
-		padding-bottom: 64upx;
+		
 	}
 
 	.tabBtnMina {
@@ -32,7 +31,7 @@
 
 	.txtBtn {
 		font-size: 24upx;
-		color: #666666;
+		color: #333;
 	}
 
 	.txtBtnSel {
@@ -48,18 +47,20 @@
 		/* width: 250upx; */
 		flex: 1;
 		text-align: center;
-		color: #666;
+		color: #333;
+		padding-bottom: 5px;
 		.icon{
 			background-color: @hs;
 			border: 1px solid rgba(255,255,255,0.5);
 			border-radius: 50%;
-			width: 80rpx;
-			height: 80rpx;
-			line-height: 80rpx;
+			width: 100rpx;
+			height: 100rpx;
+			line-height: 100rpx;
 			margin: auto;
+			margin-bottom: 5px;
 			text-align: center;
 			.font_family{
-				font-size: 80rpx;
+				font-size: 100rpx;
 				display: block;
 			}
 		}
@@ -130,7 +131,7 @@
 				<view class="icon">
 					<text class="font_family icon-info" :class="{'animate__animated animate__bounceIn' :active==1}"></text>
 				</view>
-				<text class="txtBtn" >咨询</text>
+				<text class="txtBtn" >资讯</text>
 			</view>
 
 			<view class="itmMain animate__animated" :class="{'txtBtnSel' :active==2}" @click.stop="switchTabFunc(2, '/pages/help')">
@@ -149,7 +150,7 @@
 	export default {
 		data() {
 			return {
-				active: Number, // 当亲选择那个按钮
+				active: 0, // 当亲选择那个按钮
 				platforms: '', // 终端调整兼容
 				leftWidth: 0, // 安卓 端使用
 				flagTypeInfo: false, // 检测当前是否是IPHONE 异形屏幕

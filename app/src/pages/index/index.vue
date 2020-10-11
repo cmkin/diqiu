@@ -1,11 +1,11 @@
 <template>
 	<view class="index">
 		
-		<casem class="animate__animated" :class="{'animate__slideInRight':tabbarActive==0}" v-if="tabbarActive==0"></casem>
-		<consulting class="animate__animated" :class="{'animate__slideInRight':tabbarActive==1}" v-if="tabbarActive==1"></consulting>
-		<mine class="animate__animated" :class="{'animate__slideInRight':tabbarActive==2}" v-if="tabbarActive==2"></mine>
+		<casem class="animate__animated" :class="{'animate__fadeInRight':tabbarActive==0}" v-if="tabbarActive==0"></casem>
+		<consulting class="animate__animated" :class="{'animate__fadeInRight':tabbarActive==1}" v-if="tabbarActive==1"></consulting>
+		<mine class="animate__animated" :class="{'animate__fadeInRight':tabbarActive==2}" v-if="tabbarActive==2"></mine>
 		
-		<tabbar @change="tabbarChange"></tabbar>
+		<tabbar :actives="tabbarActive" @change="tabbarChange"></tabbar>
 		
 		
 	</view>
@@ -19,7 +19,7 @@
 	export default {
 		data() {
 			return {
-				tabbarActive:0
+				tabbarActive:1
 			}
 		},
 		components:{tabbar,casem,consulting,mine},
@@ -36,8 +36,8 @@
 </script>
 
 <style lang="less" scoped>
-
+	
 	.index{
-		
+		overflow-x: hidden;
 	}
 </style>
