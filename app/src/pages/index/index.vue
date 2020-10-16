@@ -1,13 +1,15 @@
 <template>
 	<view class="index">
-		
+			
 		<casem class="animate__animated" :class="{'animate__fadeInRight':tabbarActive==0}" v-if="tabbarActive==0"></casem>
 		<consulting class="animate__animated" :class="{'animate__fadeInRight':tabbarActive==1}" v-if="tabbarActive==1"></consulting>
 		<mine class="animate__animated" :class="{'animate__fadeInRight':tabbarActive==2}" v-if="tabbarActive==2"></mine>
-		
+		 
+		 
+		 
 		<tabbar :actives="tabbarActive" @change="tabbarChange"></tabbar>
-		
-		
+
+
 	</view>
 </template>
 
@@ -19,25 +21,37 @@
 	export default {
 		data() {
 			return {
-				tabbarActive:1
+				tabbarActive: 0
 			}
 		},
-		components:{tabbar,casem,consulting,mine},
+		components: {
+			tabbar,
+			casem,
+			consulting,
+			mine
+		},
 		onLoad() {
+		
 			
 		},
 		methods: {
-			tabbarChange(index){
-				
+			tabbarChange(index) {
+
 				this.tabbarActive = index
-			}
+			},
+			
+			getFilelist() {
+				
+	
+			},
+
+
 		}
 	}
 </script>
 
 <style lang="less" scoped>
-	
-	.index{
+	.index {
 		overflow-x: hidden;
 	}
 </style>

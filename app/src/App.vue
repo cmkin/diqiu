@@ -14,7 +14,7 @@
 
 <style>
 	/*每个页面公共css */
-	@import url("https://at.alicdn.com/t/font_2041681_rde6s50nsyi.css");
+	@import url("https://at.alicdn.com/t/font_2041681_9rf1abk93gl.css");
 	@import url("animate.css");
 	@font-face {
 	  font-family: "regular";
@@ -25,15 +25,19 @@
 		font-size: 40rpx;
 	}
 	.animate__animated{
-		animation-duration: .5s !important;
+		animation-duration: .5s ;
 	}
 	
 	page{
 		font-family: 'regular';
-		background: url(assets/imgs/bg1.png) no-repeat 0 0;
+		background-image: url(assets/imgs/bg1.png);
 		background-size: 100% 100%;
 		background-repeat:no-repeat; 
 		background-attachment:fixed;
 		font-size: 24rpx;
+		padding-top: var(--status-bar-height);
+		box-sizing: border-box;
+		min-height: calc(100vh - var(--status-bar-height));
 	}
+	
 </style>

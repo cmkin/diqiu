@@ -3,10 +3,33 @@
 		{
 			"path": "pages/index/index",
 			"style": {
+				
+			}
+		},
+		{
+			"path": "pages/index/case/details/details",
+			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
 		}
 	],
+	"subPackages": [{
+	        "root": "pagesPlay",
+	        "pages": [{
+	            "path": "login/login",
+	            "style": { 
+					
+				}
+	        }]
+	}],
+	 "preloadRule": {
+	        
+	        "pages/index/case/details/details": {
+	            "network": "all",
+	           // "packages": ["pagesPlay"]
+	            "packages": ["_APP_"]
+	        }
+	},
 	"globalStyle": {
 		"navigationStyle":"custom",
 		"navigationBarTextStyle": "black",

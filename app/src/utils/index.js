@@ -15,6 +15,7 @@ import Vue from 'vue'
 
 
 
+
 const components = []
 components.forEach(item=>{
 	Vue.component(item.name,item)
