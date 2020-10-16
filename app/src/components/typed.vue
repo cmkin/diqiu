@@ -12,6 +12,11 @@
 				str: ''
 			}
 		},
+		props:{
+			str:{
+				default:'-'
+			}
+		},
 		mounted() {
 			let i = 0,
 				timer = 0,
