@@ -1,6 +1,6 @@
 <template>
 	<view class="g_typed">
-		{{str}}
+		{{strShow}}
 		<view class="element"></view>
 	</view>
 </template>
@@ -9,33 +9,38 @@
 	export default {
 		data() {
 			return {
-				str: ''
+				strShow: ''
 			}
 		},
 		props:{
 			str:{
-				default:'-'
+				default:''
+			},
+			speend:{
+				type:[Number,String],
+				default:150
 			}
 		},
 		mounted() {
-			let i = 0,
-				timer = 0,
-				_this = this,
-				str = '用JS实现动态打字效果'
-			function typing(){
-				if (i <= str.length) {
-					_this.str = str.slice(0, i++) + '_'
-					timer = setTimeout(typing, 100)
-				} else {
-					_this.str = str //结束打字,移除 _ 光标
-					clearTimeout(timer)
-				}
-			}
-			typing()
+			this.star()
 		},
 		methods:{
 			star(){
-				
+				let i = 0,
+					timer = 0,
+					_this = this,
+					str = this.str
+				function typing(){
+					if (i <= str.length) {
+						_this.strShow = str.slice(0, i++) + '_'
+						timer = setTimeout(typing, _this.speend)
+					} else {
+						_this.str = str //结束打字,移除 _ 光标
+						clearTimeout(timer)
+						_this.$emit("typedEd")
+					}
+				}
+				typing()
 			}
 		}
 	}

@@ -9,7 +9,7 @@
 				<view class="ts">
 					<view class="icon">
 						<view class="btn">
-							<text v-for="item in 3"></text>
+							<text v-for="item,index in 3" :key="index"></text>
 						</view>
 					</view>
 				</view>
@@ -19,7 +19,7 @@
 				</view>
 			</view>
 			
-			<typed></typed>
+			<typed str="年底啊哈爱说大话撒谎大 打赏啊说的撒啊 萨达"></typed>
 			
 		</view>
 		
@@ -40,7 +40,10 @@
 		},
 		components:{
 			gts,typed
-		}
+		},
+		onLoad() {
+			console.log(this.$store.state.pagesPlay.t)
+		},
 	}
 </script>
 
