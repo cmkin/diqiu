@@ -1,7 +1,6 @@
 <template>
 	<view class="g_typed">
 		{{strShow}}
-		<view class="element"></view>
 	</view>
 </template>
 
@@ -19,6 +18,9 @@
 			speend:{
 				type:[Number,String],
 				default:150
+			},
+			className:{
+				type:String
 			}
 		},
 		mounted() {
@@ -49,5 +51,6 @@
 <style lang="less" scoped>
 	.g_typed {
 		color: #fff;
+		display: inline-block;
 	}
 </style>
