@@ -4,7 +4,6 @@ Vue.use(uniCrazyRouter)
 
 uniCrazyRouter.beforeEach(async (to, from ,next)=>{
     // 逻辑代码
-    console.log(to)
     next()
 })
 

@@ -36,7 +36,7 @@
 	
 	.index_case{
 		width: 100%;
-		height: 100vh;
+		height: calc(100vh - var(--status-bar-height));
 		background: url(~@/assets/imgs/case.png) no-repeat 0 0;
 		background-size: 100% 100%;
 		background-repeat:no-repeat; 

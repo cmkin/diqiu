@@ -7,24 +7,27 @@
 			</view>
 			<view class="main">
 				<view class="ts">
+					<ts v-if="flag.tsActive==index && flag.ts" v-for="item,index in tsList" class="f" :content="item"></ts>
 					<view class="icon">
 						<view class="btn">
-							<text v-for="item,index in 3" :key="index"></text>
+							<text @click="changeTs(index)" v-for="item,index in tsList.length" :key="index"></text>
 						</view>
 					</view>
 				</view>
 				<view class="login">
-					<input type="text" value="" />
-					<button hover-class="h" type="default">登录</button>
+					<input v-model="password" type="text" value="" />
+					<button @click="login" hover-class="h" type="default">登录</button>
 				</view>
 			</view>
-			
-			<typed str="年底啊哈爱说大话撒谎大 打赏啊说的撒啊 萨达"></typed>
 			
 		</view>
 		
 		
-		<gts></gts>
+		
+		<gts @click.native="flag.ts?'':flag.jt = true"></gts>
+		
+		<alertts v-if="flag.jt" @action="alertAction" content="以下内容涉及剧透"></alertts>
+		<alertts v-if="flag.error" :isBtn="false" content="指令错误,请重试"></alertts>
 		
 	</view>
 </template>
@@ -32,18 +35,55 @@
 <script>
 	import gts from '_c/gts'
 	import typed from '_c/typed'
+	import alertts from '_c/alertTs'
+	import ts from '_c/ts'
 	export default{
 		data(){
 			return{
-				
+				password:'',
+				flag:{
+					jt:false,
+					ts:false,
+					tsActive:null,
+					error:false
+				},
+				tsList:['请从SuMo的信件中寻找线索',
+					'SuMo是个严谨的人，为什么说那么奇怪的话？',
+					'请从信件中奇怪的表情中,找出一组英文字母指令；(123)']
 			}
 		},
 		components:{
-			gts,typed
+			gts,typed,alertts,ts
 		},
 		onLoad() {
 			console.log(this.$store.state.pagesPlay.t)
 		},
+		methods:{
+			alertAction(type){
+				if(type=='ok'){
+					this.flag.jt = false
+					this.flag.tsActive = 0
+					this.flag.ts = true
+				}else{
+					this.flag.jt = false
+				} 
+			},
+			changeTs(index){
+				this.flag.tsActive = index
+			},
+			login(){
+				if(this.password=='123'){
+					uni.navigateTo({
+						url:"/pagesPlay/index/index"
+					})
+				}else{
+					this.flag.error = true
+					setTimeout(()=>{
+						this.flag.error = false
+					},3000)
+				}
+			}
+		}
 	}
 </script>
 
@@ -85,6 +125,11 @@
 			.main{
 				.ts{
 					position: relative;
+					.f{
+						width: 50%;
+						left: 50%;
+						transform: translateX(-50%);
+					}
 					.icon{
 						width: 50%;
 						margin: auto;
@@ -111,6 +156,7 @@
 					background-size: 100% 100%;
 					text-align: center;
 					padding:60rpx 80rpx;
+					padding-bottom: 20rpx;
 					width: 50%;			
 					margin: auto;
 					input{

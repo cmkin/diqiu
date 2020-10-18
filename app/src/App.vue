@@ -14,7 +14,7 @@
 
 <style>
 	/*每个页面公共css */
-	@import url("https://at.alicdn.com/t/font_2041681_9rf1abk93gl.css");
+	@import url("https://at.alicdn.com/t/font_2041681_mwb8s58cgn.css");
 	@import url("animate.css");
 	@font-face {
 	  font-family: "regular";

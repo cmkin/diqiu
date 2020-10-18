@@ -15,19 +15,31 @@
 	],
 	"subPackages": [{
 	        "root": "pagesPlay",
-	        "pages": [{
-	            "path": "login/login",
-	            "style": { 
-					
+	        "pages": [
+				{
+					"path": "login/login",
+					"style": { }
+				},
+				{
+					"path": "index/index",
+					"style": { }
+				},
+				{
+					"path": "index/meaasge/addfriend",
+					"style": { }
+				},
+				{
+					"path": "index/meaasge/chat",
+					"style": { }
 				}
-	        }]
+			]
 	}],
 	 "preloadRule": {
 	        
 	        "pages/index/case/details/details": {
 	            "network": "all",
 	           // "packages": ["pagesPlay"]
-	            "packages": ["_APP_"]
+	            "packages": ["pagesPlay"]
 	        }
 	},
 	"globalStyle": {

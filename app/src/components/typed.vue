@@ -1,6 +1,6 @@
 <template>
 	<view class="g_typed">
-		{{strShow}}
+		<view v-html="strShow"></view>
 	</view>
 </template>
 
@@ -37,7 +37,7 @@
 						_this.strShow = str.slice(0, i++) + '_'
 						timer = setTimeout(typing, _this.speend)
 					} else {
-						_this.str = str //结束打字,移除 _ 光标
+						_this.strShow = str //结束打字,移除 _ 光标
 						clearTimeout(timer)
 						_this.$emit("typedEd")
 					}
