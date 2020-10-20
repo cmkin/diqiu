@@ -24,7 +24,7 @@
 		
 		
 		
-		<gts @click.native="flag.ts?'':flag.jt = true"></gts>
+		<gts @click.native=" flag.ts = true"></gts>
 		
 		<alertts v-if="flag.jt" @action="alertAction" content="以下内容涉及剧透"></alertts>
 		<alertts v-if="flag.error" :isBtn="false" content="指令错误,请重试"></alertts>
@@ -41,38 +41,53 @@
 		data(){
 			return{
 				password:'',
+				player:null,
 				flag:{
 					jt:false,
 					ts:false,
-					tsActive:null,
+					tsActive:0,
 					error:false
 				},
 				tsList:['请从SuMo的信件中寻找线索',
 					'SuMo是个严谨的人，为什么说那么奇怪的话？',
-					'请从信件中奇怪的表情中,找出一组英文字母指令；(123)']
+					'请从信件中奇怪的表情中,找出一组英文字母指令;']
 			}
 		},
 		components:{
 			gts,typed,alertts,ts
 		},
 		onLoad() {
-			console.log(this.$store.state.pagesPlay.t)
+			//播放
+			this.player = plus.audio.createPlayer("/static/mp3/bg.mp3")
+			if(this.player.isPaused()){
+				this.player.play()
+			}
+		},
+		onHide() {
+			this.player.stop()
 		},
 		methods:{
 			alertAction(type){
 				if(type=='ok'){
 					this.flag.jt = false
-					this.flag.tsActive = 0
+					this.flag.tsActive = 2
 					this.flag.ts = true
 				}else{
 					this.flag.jt = false
 				} 
 			},
 			changeTs(index){
+				if(this.flag.tsActive==0 && index==2){
+					return
+				}
+				if(index==2){
+					this.flag.jt = true
+					return
+				}
 				this.flag.tsActive = index
 			},
 			login(){
-				if(this.password=='123'){
+				if(this.password.toLocaleLowerCase()=='wcorz'){
 					uni.navigateTo({
 						url:"/pagesPlay/index/index"
 					})

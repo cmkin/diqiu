@@ -1,6 +1,6 @@
 <template>
 	<view class="g_ts ">
-		<view class="icon animate__animated  animate__bounce animate__infinite animate__slow"></view>
+		<view class="icon animate__animated  animate__bounce animate__infinite animate__pulse"></view>
 	</view>
 </template>
 
@@ -17,7 +17,10 @@
 			height: 120rpx;
 			background-image: url(/pagesPlay/img/gts.png);
 			background-size: 100% 100%;
-			animate-duration: 1s;
+			animation-duration: 1s !important;
+		}
+		.animate__animated{
+			
 		}
 	}
 </style>
