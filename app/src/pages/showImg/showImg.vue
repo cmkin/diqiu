@@ -1,6 +1,6 @@
 <template>
-	<view class="g_show_img">
-		<back class="back"  content="查看图片"></back>
+	<view class="g_show_img" @click="back">
+		<back @click.stop class="back"  content="查看图片"></back>
 		<image :src="src" mode="widthFix"></image>
 	</view>
 </template>
@@ -17,18 +17,30 @@
 			back
 		},
 		onLoad(data) {
-			
+			this.src = data.src
+		},
+		methods:{
+			back(){
+				uni.navigateBack({
+					delta:1
+				})
+			}
 		}
 	}
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 	page{
-		background: #000;
+		background-image: none;
+		background-color: #000;
 		width: 100vw;
 		height: 100vh;
 	}
 	.g_show_img{
-		
+		image{
+			display: block;
+			width: 100%;
+			margin-top: 2vh;
+		}
 	}
 </style>

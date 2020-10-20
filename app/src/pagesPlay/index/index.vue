@@ -26,15 +26,15 @@
 					},
 					{
 						icon:'icon2',
-						text:"背包"
+						text:"线索"
 					},
 					{
 						icon:'icon3',
-						text:"成就"
+						text:"词条"
 					},
 					{
 						icon:'icon4',
-						text:"我的"
+						text:"人物"
 					}
 				],
 				fontActive:0

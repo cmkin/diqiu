@@ -14,7 +14,7 @@
 			</view>
 			
 			<view class="ts">
-				<ts v-if="flag.tsActive==index && setp.type==1" v-for="item,index in tsList" class="f" :content="item"></ts>
+				<ts v-if="setp.flag && flag.tsActive==index" v-for="item,index in tsList" class="f" :content="item"></ts>
 				<view class="icon">
 					<view class="btn">
 						<text @click="changeTs(index)" v-for="item,index in tsList.length" :key="index"></text>
@@ -39,7 +39,7 @@
 		<alertts v-if="flag.zh" :isBtn="false" content="您搜索的账号不存在"></alertts>
 		<alertts v-if="flag.jt" @action="alertAction" content="以下内容涉及剧透"></alertts>
 		<alertts v-if="flag.input" @action="inputAction" type="input"></alertts>
-		<gts style="bottom: 40rpx;" @click.native="flag.jt = true"></gts>
+		<gts style="bottom: 40rpx;right: 25rpx;" @click.native="gtsAlert()"></gts>
 		<ts v-if="flag.ts" class="jttt" :content="setp.title"></ts>
 	</view>
 </template>
@@ -52,7 +52,7 @@
 	export default{
 		data(){
 			return{
-				friend:"",
+				friend:"SuMo",
 				flag:{
 					zh:false,
 					jt:false,
@@ -61,10 +61,11 @@
 					tsActive:0
 				},
 				setp:{
+					flag:false,
 					type:0,
 					title:'SuMo'
 				},
-				tsList:['目前没有好友，需要进行添加','请在书信中寻找需要添加的人物','输入寄信人姓名ID(SuMo)，注意英文大小写']
+				tsList:['目前没有好友，需要进行添加','请在书信中寻找需要添加的人物','输入寄信人姓名ID，注意英文大小写']
 			}
 		},
 		components:{
@@ -85,9 +86,23 @@
 					},3000)
 				}
 			},
+			gtsAlert(){
+				
+				if(this.friend == 'SuMo'){
+					this.setp.title="将我的名字倒过来看看"
+					this.flag.ts = true
+					setTimeout(()=>{
+						this.flag.ts = false
+					},3000)
+				}else{
+					this.setp.flag = true
+				}
+				
+			},
 			alertAction(type){
 				if(type=="ok"){
 					if(this.setp.type==0){
+						this.flag.tsActive = 2
 						this.setp.type =1
 						this.flag.jt = false
 					}else{
@@ -108,7 +123,7 @@
 				if(typeof optiongs == 'string' ){
 					//this.flag.input = false
 				}else{
-					if(optiongs.value == "oMuS"){
+					if(optiongs.value == "oWnS"){
 						this.$store.commit('addFrinend',{
 							name:'SuMo',
 							isNew:true,
@@ -135,6 +150,13 @@
 				}
 			},
 			changeTs(index){
+				if(this.flag.tsActive==0 && index==2){
+					return
+				}
+				if(index==2){
+					this.flag.jt = true
+					return
+				}
 				this.flag.tsActive = index
 			},
 			addFriend(){

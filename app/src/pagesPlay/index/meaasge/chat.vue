@@ -1,16 +1,19 @@
 <template>
-	<view class="pagesplay_index_message_chat">
+	<view class="pagesplay_index_message_chat" :class="{hide:isHide}">
 		<back class="back" content="SuMo"></back>
 
 		<view class="items_wrap">
 			<view class="items">
-				<view class="item" :class="{'nan':item.type==1}" v-for="item in contacts">
+				<view class="item animate__animated animate__slideInUp" :class="{'nan':item.type==1}" v-for="item in contacts">
 					<view class="tx"></view>
 					<view class="info" :class="{'wrap_img':item.value=='img'}">
-						<view class="img" v-if="item.value=='img'">
-							<image @click="bigImg(item.img)" @load="imgLoad" mode="widthFix" :src="item.img"></image>
+						<view class="bgg">
+							<view class="img" v-if="item.value=='img'">
+								<image @click="bigImg(item.img)" @load="imgLoad" mode="widthFix" :src="item.img"></image>
+							</view>				
+							<typed v-else @typedEd="typedEd" nospeend :speend="1" class="b" :str="item.value"></typed>
+							
 						</view>
-						<typed v-else @typedEd="typedEd" :speend="80" class="b" :str="item.value"></typed>
 					</view>
 				</view>
 
@@ -29,14 +32,14 @@
 			<view class="input_sr" v-else-if="setp.active">
 				<input type="text" placeholder-style="color:#fff" placeholder="请输入答案" v-model="setp.sendInput" />
 			</view>
+			<view class="input" v-else-if="!isSend">
+				<typed  :speend="80" str="......"></typed>
+			</view>
 			<text class="input" v-else v-html="nextContact"></text>
 			<button type="default" @click="send()" hover-class="h" class="btn"></button>
 		</view>
 
 
-		<view class="showImg " @click="showImg.flag = false" v-if="showImg.flag">
-			<image :src="showImg.src" mode="widthFix"></image>
-		</view>
 
 
 		<gts v-if="setp.active" @click.native="tsClick"></gts>
@@ -55,6 +58,7 @@
 	export default {
 		data() {
 			return {
+				isHide:true,
 				flag: {
 					jt: false
 				},
@@ -104,9 +108,20 @@
 		onLoad(optings) {
 			let item = JSON.parse(optings.item)
 			this.item = item
+			uni.pageScrollTo({
+				scrollTop: 9000000,
+				duration: 0,
+				complete:()=>{
+					console.log("ok")
+				}
+			});
+			
+			setTimeout(()=>{
+				this.isHide = false
+			},800)
 			
 			
-			
+			return
 			uni.getStorage({
 				key:'progress',
 				success: (res) => {
@@ -134,7 +149,7 @@
 			'contactActive'(n) {
 				uni.pageScrollTo({
 					scrollTop: 9000000,
-					duration: 300
+					duration: 0
 				});
 			}
 		},
@@ -147,6 +162,9 @@
 				if (this.setp.active != null) {
 					var id = this.allContacts[this.contactActive].id
 						console.log(this.setp.active)
+						if(this.setp.sendInput == ''){
+							return
+						}
 					switch (this.setp.active) {
 						case 1:
 
@@ -346,28 +364,54 @@
 					return
 				}
 				if (nowItem.type == 1 && nextItem.type == 0) {
-					this.isSend = false
-					this.$store.commit("updeteChatActive", active + 1)
+					setTimeout(()=>{
+						this.isSend = false
+						this.$store.commit("updeteChatActive", active + 1)
+					},this.getSendTime(nowItem.value))
 					return
 				}
 				if (nextItem.type == nowItem.type) {
-					this.isSend = false
-					this.$store.commit("updeteChatActive", active + 1)
+					setTimeout(()=>{
+						this.isSend = false
+						this.$store.commit("updeteChatActive", active + 1)
+					},this.getSendTime(nowItem.value))
 				} else {
 					this.isSend = true
 				}
 
 
 			},
+			getSendTime(value){
+				let length = value.length
+				let time = 0
+				switch(length){
+					case length<=10:
+						time = 500
+					break;
+					case length<=30:
+						time = 1000
+					break;
+					case length<=50:
+						time = 2000
+					break;
+					default:
+						time = 3000
+				}
+				
+				return time
+			},
 			imgLoad() {
 				//图片加载完成
 				this.typedEd()
 				uni.pageScrollTo({
 					scrollTop: 9000000,
-					duration: 300
+					duration: 0
 				});
 			},
 			bigImg(src) {
+				uni.navigateTo({
+					url:"/pages/showImg/showImg?src="+src
+				})
 				this.showImg.src = src
 				this.showImg.flag = true
 			},
@@ -549,9 +593,11 @@
 		background-image: url(/pagesPlay/img/index/addbg.png);
 		background-size: 105% 107%;
 		background-position: 0 0;
-		color: @blue-q;
+		color: #6BC9E5;
 	}
-
+	.hide{
+		opacity: 0;
+	}
 	.pagesplay_index_message_chat {
 		position: relative;
 
@@ -606,20 +652,30 @@
 					top: 0;
 					width: 80rpx;
 					height: 80rpx;
-					background-image: url(/pagesPlay/img/message/nv.jpg);
+					background-image: url(/pagesPlay/img/message/nv.png);
 					background-size: 100% 100%;
 				}
 
 				.info {
+					
 					padding-right: 20%;
 					font-size: 22rpx;
 					line-height: 30rpx;
 					.clearfix;
 
 					.b {
-						color: @blue-q;
+						color: #6BC9E5;
 					}
-
+					.bgg{
+						padding: 15rpx;
+						box-sizing: border-box;
+						border-radius: 2px;
+						overflow: hidden;
+						background-image: url(/pagesPlay/img/index/chat.png);
+						background-size: 300% 100%;
+						background-position: -200% 0rpx;
+						display: inline-block;
+					}
 					color: @blue-q;
 				}
 
@@ -645,7 +701,7 @@
 				padding-right: 120rpx;
 
 				.tx {
-					background-image: url(/pagesPlay/img/message/nan.jpg);
+					background-image: url(/pagesPlay/img/message/nan.png);
 					left: auto;
 					right: 20rpx;
 				}

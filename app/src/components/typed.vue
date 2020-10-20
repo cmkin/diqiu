@@ -15,6 +15,10 @@
 			str:{
 				default:''
 			},
+			nospeend:{
+				type:Boolean,
+				default:false
+			},
 			speend:{
 				type:[Number,String],
 				default:150
@@ -32,6 +36,14 @@
 					timer = 0,
 					_this = this,
 					str = this.str
+				 
+				 if(this.nospeend){
+					 
+					 _this.strShow = str
+					 _this.$emit("typedEd")
+					 return
+				 }
+				 
 				function typing(){
 					if (i <= str.length) {
 						_this.strShow = str.slice(0, i++) + '_'

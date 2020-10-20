@@ -40,7 +40,7 @@
 	export default{
 		data(){
 			return{
-				password:'',
+				password:'wcorz',
 				player:null,
 				flag:{
 					jt:false,
@@ -58,13 +58,15 @@
 		},
 		onLoad() {
 			//播放
+			return
 			this.player = plus.audio.createPlayer("/static/mp3/bg.mp3")
 			if(this.player.isPaused()){
 				this.player.play()
 			}
 		},
 		onHide() {
-			this.player.stop()
+			console.log("hide")
+			//this.player.stop()
 		},
 		methods:{
 			alertAction(type){

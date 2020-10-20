@@ -115,7 +115,7 @@
 					.tx{
 						width: 80rpx;
 						height: 80rpx;
-						background-image: url(/pagesPlay/img/message/nv.jpg);
+						background-image: url(/pagesPlay/img/message/tx-nan.png);
 						background-size: 100% 100%;
 						margin-right: 10rpx;
 						position: relative;
