@@ -58,15 +58,18 @@
 		},
 		onLoad() {
 			//播放
-			return
+			
 			this.player = plus.audio.createPlayer("/static/mp3/bg.mp3")
 			if(this.player.isPaused()){
 				this.player.play()
 			}
 		},
+		onUnload(){
+			this.player.stop()
+		},
 		onHide() {
 			console.log("hide")
-			//this.player.stop()
+			
 		},
 		methods:{
 			alertAction(type){
