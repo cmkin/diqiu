@@ -1,6 +1,6 @@
 <template>
-	<view class="g_show_img" @click="back">
-		<back @click.stop class="back"  content="查看图片"></back>
+	<view class="g_show_img">
+		<back @click.native="back"  class="back"  content="查看图片"></back>
 		<image :src="src" mode="widthFix"></image>
 	</view>
 </template>

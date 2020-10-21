@@ -290,6 +290,9 @@ let pagesPlay = {
 				state.message.friends.push(obj)
 			}
 		},
+		resetFrinend(state,arr){
+			state.message.friends = arr
+		},
 		updeteFrinend(state,obj){
 			let index = state.message.friends.findIndex(item=> item.name ==obj.name)
 			   state.message.friends[index].contacts.push(obj.obj)

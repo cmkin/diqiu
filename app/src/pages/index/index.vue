@@ -53,10 +53,10 @@
 <style lang="less">
 	page{
 		width: 100%;
-		height: calc(100vh - var(--status-bar-height));
-		background: url(~@/assets/imgs/case.png) no-repeat 0 0;
+		height:calc(100vh - var(--status-bar-height));
+		background: none;
 		background-size: 100% 100%;
-		background-position:0  var(--status-bar-height);
+		background-position:0  0;
 		background-repeat:no-repeat; 
 		background-attachment:fixed;
 		box-sizing: border-box;

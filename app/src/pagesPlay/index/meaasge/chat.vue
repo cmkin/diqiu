@@ -1,5 +1,6 @@
 <template>
 	<view class="pagesplay_index_message_chat" :class="{hide:isHide}">
+		<view class="top_bg"></view>
 		<back class="back" content="SuMo"></back>
 
 		<view class="items_wrap">
@@ -21,7 +22,7 @@
 		</view>
 
 
-
+		<view class="bottom_bg"></view>
 		<view class="send">
 			<view class="ending" v-if="setp.isEnding">
 				<text @click="goTop">上滑</text>
@@ -112,9 +113,17 @@
 				scrollTop: 9000000,
 				duration: 0,
 				complete:()=>{
-					console.log("ok")
+					
 				}
 			});
+			this.$store.commit('addFrinend',{
+				name:'SuMo',
+				isNew:true,
+				contacts:this.$store.state.pagesPlay.message.friendsOne.map((item,index)=>{
+					item.index = index
+					return item
+				})
+			}) 
 			
 			setTimeout(()=>{
 				this.isHide = false
@@ -154,7 +163,21 @@
 			}
 		},
 		onShow() {
-
+		
+		},
+		onHide() {
+			console.log("chatHide")
+		},
+		onUnload() {
+			console.log("chatun")
+			uni.setStorage({
+				key:'chatContactActive',
+				data:this.contactActive
+			})
+			uni.setStorage({
+				key:'chatFriends',
+				data:this.$store.state.pagesPlay.message.friends
+			})
 		},
 		methods: {
 			send() {
@@ -623,8 +646,7 @@
 			left: 15%;
 			width: 70%;
 			padding: 0;
-			z-index: 10;
-
+			z-index: 15;
 			.font_family {
 				top: 0;
 			}
@@ -718,16 +740,41 @@
 				}
 			}
 		}
-
+		.bottom_bg{
+			position: fixed;
+			bottom: 0rpx;
+			background: #000;
+			box-sizing: border-box;
+			width: 90vw;
+			left: 4.5vw;
+			height: 20vh;
+			z-index: 10;
+			background-image: url(/pagesPlay/img/index/addbg_b.png);
+			background-size: 100% 120rpx;
+			background-position: 0vh -1vh;
+			background-repeat: no-repeat;
+		}
+		.top_bg{
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 10vh;
+			background: #000;
+			z-index: 10;
+			background-image: url(/pagesPlay/img/index/addbg.png);
+			background-size: 105% 107vh;
+			background-position: 0 0vh;
+		}
 		.send {
 			position: fixed;
-			bottom: 40rpx;
+			bottom: 30rpx;
 			left: 5vw;
 			z-index: 10;
 			width: 90vw;
 			height: 80px;
+			z-index: 12;
 			box-sizing: border-box;
-
 			.input_sr {
 				background-image: url(/pagesPlay/img/index/addFriend.png);
 				background-size: 200% 200%;

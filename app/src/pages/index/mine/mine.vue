@@ -24,7 +24,7 @@
 	
 	.index_mine{
 		width: 100%;
-		height: calc(100vh - var(--status-bar-height));
+		height: 100vh;
 		background: url(~@/assets/imgs/bg1.png) no-repeat 0 0;
 		background-size: 100% 100%;
 		background-repeat:no-repeat; 

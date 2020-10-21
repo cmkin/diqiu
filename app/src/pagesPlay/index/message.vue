@@ -16,7 +16,6 @@
 					<text>私人邮箱</text>
 				</view>
 			</view>
-			
 			<view class="friends">
 				<view class="item" @click="gochat(item)" v-for="item in friends">
 					<view class="tx">
@@ -24,7 +23,7 @@
 					</view>
 					<view class="r">
 						<view class="name">{{item.name}}</view>
-						<view class="info" v-html="item.contacts[0].value"></view>
+						<view class="info" v-if="item.contacts.length" v-html="item.contacts[item.contacts.length-1].value"></view>
 					</view>
 				</view>
 			</view>

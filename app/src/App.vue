@@ -1,7 +1,29 @@
 <script>
 	export default {
 		onLaunch: function() {
+			plus.navigator.setFullscreen(true);
 			console.log('App Launch')
+			uni.getStorage({
+				key:'chatContactActive',
+				success:(data)=>{
+					this.$store.commit('updeteChatActive',data.data)
+					//console.log(data)
+				},
+				fail(err) {
+					console.log(err)
+				}
+			})
+			
+			uni.getStorage({
+				key:'chatFriends',
+				success:(data)=>{
+					this.$store.commit('resetFrinend',data.data)
+					//console.log(this.$store.state.pagesPlay.message.friends)
+				},
+				fail(err) {
+					console.log(err)
+				}
+			})
 			
 		},
 		onShow: function() {
@@ -38,7 +60,7 @@
 		font-size: 24rpx;
 		padding-top: var(--status-bar-height);
 		box-sizing: border-box;
-		min-height: calc(100vh - var(--status-bar-height));
+		min-height: 100vh;
 	}
 	
 </style>
