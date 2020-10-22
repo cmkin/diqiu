@@ -13,7 +13,7 @@
 				<view class="icon2"></view>
 			</view>
 			
-			<view class="ts">
+			<view class="ts" :class="{opacity:setp.flag}">
 				<ts v-if="setp.flag && flag.tsActive==index" v-for="item,index in tsList" class="f" :content="item"></ts>
 				<view class="icon">
 					<view class="btn">
@@ -52,7 +52,7 @@
 	export default{
 		data(){
 			return{
-				friend:"SuMo",
+				friend:"",
 				flag:{
 					zh:false,
 					jt:false,
@@ -206,6 +206,7 @@
 				}
 			}
 			.ts{
+				opacity: 0;
 				position: absolute;
 				top: 60vh;
 				left: 50%;
@@ -236,6 +237,9 @@
 						flex: 1;
 					}
 				}
+			}
+			.opacity{
+				opacity: 1;
 			}
 			.adding{
 				padding-top: 30%;

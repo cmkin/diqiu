@@ -6,7 +6,7 @@
 				<view class="icon2"></view>
 			</view>
 			<view class="main">
-				<view class="ts">
+				<view class="ts" :class="{opacity:flag.ts}">
 					<ts v-if="flag.tsActive==index && flag.ts" v-for="item,index in tsList" class="f" :content="item"></ts>
 					<view class="icon">
 						<view class="btn">
@@ -145,6 +145,7 @@
 			.main{
 				.ts{
 					position: relative;
+					opacity: 0;
 					.f{
 						width: 50%;
 						left: 50%;
@@ -170,6 +171,9 @@
 							flex: 1;
 						}
 					}
+				}
+				.opacity{
+					opacity: 1;
 				}
 				.login{
 					background-image: url(/pagesPlay/img/login.png);
