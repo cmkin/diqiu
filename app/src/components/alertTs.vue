@@ -4,8 +4,8 @@
 			<view class="input" v-if="type=='input'">
 				<input type="text"  v-model="input" />
 			</view>
-			<view v-else class="font">
-				<typed :str="content"></typed>
+			<view v-else class="font" :style="{fontSize:fontSize}">
+				<typed :nospeend="nospeend" :str="content"></typed>
 			</view>
 			<view  class="btns" v-if="isBtn">
 				<text  @click="ok">确定</text>
@@ -33,6 +33,14 @@
 			},
 			type:{
 				type:String
+			},
+			nospeend:{
+				type:Boolean,
+				default:false
+			},
+			fontSize:{
+				type:String,
+				default:"40rpx"
 			}
 		},
 		components:{
@@ -78,9 +86,9 @@
 				}
 			}
 			.font{
-				text-align: center;
+				text-align: left;
 				font-size: 40rpx;
-				
+				line-height: 30rpx;
 			}
 			.btns{
 				margin-top: 40rpx;

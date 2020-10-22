@@ -128,7 +128,7 @@
 							name:'SuMo',
 							isNew:true,
 							contacts:this.$store.state.pagesPlay.message.friendsOne.map((item,index)=>{
-								item.index = index
+								item.id = index
 								return item
 							})
 						})

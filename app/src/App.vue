@@ -26,11 +26,29 @@
 			})
 			
 		},
+		onUnload() {
+			uni.setStorage({
+				key: 'chatContactActive',
+				data: this.contactActive
+			})
+			uni.setStorage({
+				key: 'chatFriends',
+				data: this.$store.state.pagesPlay.message.friends
+			})
+		},
 		onShow: function() {
 			console.log('App Show')
 		},
 		onHide: function() {
 			console.log('App Hide')
+			uni.setStorage({
+				key: 'chatContactActive',
+				data: this.contactActive
+			})
+			uni.setStorage({
+				key: 'chatFriends',
+				data: this.$store.state.pagesPlay.message.friends
+			})
 		}
 	}
 </script>

@@ -38,9 +38,11 @@
 					str = this.str
 				 
 				 if(this.nospeend){
-					 
+					 setTimeout(()=>{
+						 _this.$emit("typedEd")
+					 },500)
 					 _this.strShow = str
-					 _this.$emit("typedEd")
+					 
 					 return
 				 }
 				 

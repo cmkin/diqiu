@@ -1,28 +1,33 @@
 <template>
 	<view class="pagesplay_index_message_chat" :class="{hide:isHide}">
-		<view class="top_bg"></view>
-		<back class="back" content="SuMo"></back>
+			<view class="top_bg"></view>
+		<back class="back" :isback="false" content="SuMo"></back>
 
-		<view class="items_wrap">
-			<view class="items">
-				<view class="item animate__animated animate__slideInUp" :class="{'nan':item.type==1}" v-for="item in contacts">
-					<view class="tx"></view>
-					<view class="info" :class="{'wrap_img':item.value=='img'}">
-						<view class="bgg">
-							<view class="img" v-if="item.value=='img'">
-								<image @click="bigImg(item.img)" @load="imgLoad" mode="widthFix" :src="item.img"></image>
-							</view>				
-							<typed v-else @typedEd="typedEd" nospeend :speend="1" class="b" :str="item.value"></typed>
-							
+		<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
+		 @scroll="scroll">
+			<view class="items_wrap">
+				<view class="items">
+					<view class="item animate__animated animate__slideInUp" :class="{'nan':item.type==1}" v-for="item in contacts">
+						<view class="tx"></view>
+						<view class="info" :class="{'wrap_img':item.value=='img'}">
+							<view class="bgg">
+								<view class="img" v-if="item.value=='img'">
+									<image @click="bigImg(item.img)" @load="imgLoad" mode="widthFix" :src="item.img"></image>
+								</view>
+								<typed @click.native="showCt(item)" v-else @typedEd="typedEd" nospeend :speend="1" class="b" :str="item.value"></typed>
+								
+							</view>
 						</view>
 					</view>
+
 				</view>
-
 			</view>
-		</view>
+		</scroll-view>
 
 
-		<view class="bottom_bg"></view>
+
+
+		<!-- <view class="bottom_bg"></view> -->
 		<view class="send">
 			<view class="ending" v-if="setp.isEnding">
 				<text @click="goTop">上滑</text>
@@ -34,7 +39,7 @@
 				<input type="text" placeholder-style="color:#fff" placeholder="请输入答案" v-model="setp.sendInput" />
 			</view>
 			<view class="input" v-else-if="!isSend">
-				<typed  :speend="80" str="......"></typed>
+				<typed :speend="80" str="......"></typed>
 			</view>
 			<text class="input" v-else v-html="nextContact"></text>
 			<button type="default" @click="send()" hover-class="h" class="btn"></button>
@@ -42,12 +47,15 @@
 
 
 
+		<fonterx :type="1"></fonterx>
 
-		<gts v-if="setp.active" @click.native="tsClick"></gts>
+
+		<gts style="bottom: 200rpx;z-index: 1000;" v-if="setp.active" @click.native="tsClick"></gts>
 		<alertts @action="alertAction" v-if="flag.jt" content="以下内容涉及剧透"></alertts>
-			
-		
-			
+		<alertts fontSize="25rpx"  nospeend @action="flag.ct = false" v-if="flag.ct" :content="flag.ctConent"></alertts>
+
+
+
 	</view>
 </template>
 
@@ -56,12 +64,19 @@
 	import typed from '_c/typed'
 	import gts from '_c/gts'
 	import alertts from '_c/alertTs'
+	import fonterx from '../../common/fonter.vue'
 	export default {
 		data() {
 			return {
-				isHide:true,
+				scrollTop: 90000,
+				old: {
+					scrollTop: 0
+				},
+				isHide: true,
 				flag: {
-					jt: false
+					jt: false,
+					ct:false,
+					ctConent:''
 				},
 				item: {},
 				isSend: false,
@@ -73,7 +88,7 @@
 					active: null, //1 台球提示 , 2//神射手
 					sendInput: '',
 					taiqiuActive: 0,
-					isEnding:null, //章节 1 -第一章节
+					isEnding: null, //章节 1 -第一章节
 				}
 			}
 		},
@@ -104,41 +119,42 @@
 			back,
 			typed,
 			gts,
-			alertts
+			alertts,
+			fonterx
 		},
 		onLoad(optings) {
 			let item = JSON.parse(optings.item)
 			this.item = item
-			uni.pageScrollTo({
-				scrollTop: 9000000,
-				duration: 0,
-				complete:()=>{
-					
-				}
-			});
-			this.$store.commit('addFrinend',{
-				name:'SuMo',
-				isNew:true,
-				contacts:this.$store.state.pagesPlay.message.friendsOne.map((item,index)=>{
-					item.index = index
-					return item
+			/* console.log(this.contactActive)
+			if(this.contactActive ==0){
+				let contacts =  this.$store.state.pagesPlay.message.friendsOne.map((item, index) => {
+						item.index = index
+						return item
+					}).slice(1,this.$store.state.pagesPlay.message.friendsOne.length)
+					console.log(contacts)
+				this.$store.commit('addFrinend', {
+					name: 'SuMo',
+					isNew: true,
+					contacts:contacts
 				})
-			}) 
+				console.log(this.allContacts)
+			} */
 			
-			setTimeout(()=>{
+
+			setTimeout(() => {
 				this.isHide = false
-			},800)
-			
-			
+			}, 500)
+
+
 			return
 			uni.getStorage({
-				key:'progress',
+				key: 'progress',
 				success: (res) => {
 					console.log(res.data)
 					var id = this.allContacts[this.contactActive].id
-						console.log(id)
+					console.log(id)
 					let progress = res.data
-					switch(progress){
+					switch (progress) {
 						/* case 1:
 							this.$store.commit('concatFrinend',{
 								name:this.item.name,
@@ -156,27 +172,42 @@
 		},
 		watch: {
 			'contactActive'(n) {
-				uni.pageScrollTo({
-					scrollTop: 9000000,
-					duration: 0
-				});
+				this.scrollTop +=10
+			},
+			'scrollTop'(n){
+				console.log(n)
 			}
 		},
 		onShow() {
-		
+			uni.setStorage({
+				key: 'chatContactActive',
+				data: this.contactActive
+			})
+			uni.setStorage({
+				key: 'chatFriends',
+				data: this.$store.state.pagesPlay.message.friends
+			})
 		},
 		onHide() {
 			console.log("chatHide")
+			uni.setStorage({
+				key: 'chatContactActive',
+				data: this.contactActive
+			})
+			uni.setStorage({
+				key: 'chatFriends',
+				data: this.$store.state.pagesPlay.message.friends
+			})
 		},
 		onUnload() {
 			console.log("chatun")
 			uni.setStorage({
-				key:'chatContactActive',
-				data:this.contactActive
+				key: 'chatContactActive',
+				data: this.contactActive
 			})
 			uni.setStorage({
-				key:'chatFriends',
-				data:this.$store.state.pagesPlay.message.friends
+				key: 'chatFriends',
+				data: this.$store.state.pagesPlay.message.friends
 			})
 		},
 		methods: {
@@ -184,34 +215,34 @@
 
 				if (this.setp.active != null) {
 					var id = this.allContacts[this.contactActive].id
-						console.log(this.setp.active)
-						if(this.setp.sendInput == ''){
-							return
-						}
+					console.log(this.setp.active)
+					if (this.setp.sendInput == '') {
+						return
+					}
 					switch (this.setp.active) {
 						case 1:
 
-						
+
 							if (this.setp.sendInput == 'KVAX') {
 								//正确
 								//保存进度
 								uni.setStorage({
-									key:'progress',
-									data:this.setp.active,
-									success:()=>{
+									key: 'progress',
+									data: this.setp.active,
+									success: () => {
 										this.setp.active = null
-										this.$store.commit('concatFrinend',{
-											name:this.item.name,
-											arr:this.$store.state.pagesPlay.message.friendsTwo.map(item=>{
-												item.id = id+1
+										this.$store.commit('concatFrinend', {
+											name: this.item.name,
+											arr: this.$store.state.pagesPlay.message.friendsTwo.map(item => {
+												item.id = id + 1
 												return item
 											})
 										})
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
 									}
 								})
-								
-								
+
+								this.setp.sendInput = ''
 							} else {
 								//错误
 								let obj1 = {
@@ -219,50 +250,55 @@
 									obj: {
 										id: id + 1,
 										type: 1,
-										value: this.setp.sendInput
+										value: this.setp.sendInput,
+										isEnd:1
 									}
 								}
 								this.$store.commit('updeteFrinend', obj1)
 								this.$store.commit("updeteChatActive", this.contactActive + 1)
-								
-								
+
+
 								let obj = {
 									name: this.item.name,
 									obj: {
 										id: id + 1,
 										type: 0,
-										value: '错了啦，学长，我都已经想到答案啦。'
+										value: '错了啦，学长，我都已经想到答案啦。',
+										isEnd:1
 									}
 								}
-								this.$store.commit('updeteFrinend', obj)
-								this.$store.commit("updeteChatActive", this.contactActive + 1)
+								setTimeout(()=>{
+									this.$store.commit('updeteFrinend', obj)
+									this.$store.commit("updeteChatActive", this.contactActive + 1)
+								},500)
+								
 								this.setp.sendInput = ''
 							}
 
 
-						break;
-						
+							break;
+
 						case 2:
-							if (this.setp.sendInput == '1234') {
+							if (this.setp.sendInput == '124121') {
 								//正确
 								//保存进度
 								uni.setStorage({
-									key:'progress',
-									data:this.setp.active,
-									success:()=>{
+									key: 'progress',
+									data: this.setp.active,
+									success: () => {
 										this.setp.active = null
-										this.$store.commit('concatFrinend',{
-											name:this.item.name,
-											arr:this.$store.state.pagesPlay.message.friendsThree.map(item=>{
-												item.id = id+1
+										this.$store.commit('concatFrinend', {
+											name: this.item.name,
+											arr: this.$store.state.pagesPlay.message.friendsThree.map(item => {
+												item.id = id + 1
 												return item
 											})
 										})
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
 									}
 								})
-								
-								
+
+								this.setp.sendInput = ''
 							} else {
 								//错误
 								let obj1 = {
@@ -270,50 +306,55 @@
 									obj: {
 										id: id + 1,
 										type: 0,
-										value: this.setp.sendInput
+										value: this.setp.sendInput,
+										isEnd:2
 									}
 								}
 								this.$store.commit('updeteFrinend', obj1)
 								this.$store.commit("updeteChatActive", this.contactActive + 1)
-								
-								
+
+
 								let obj = {
 									name: this.item.name,
 									obj: {
 										id: id + 1,
 										type: 1,
-										value: '嗯，似乎和正确答案还有点距离，再想想吧.'
+										value: '嗯，似乎和正确答案还有点距离，再想想吧.',
+										isEnd:2
 									}
 								}
-								this.$store.commit('updeteFrinend', obj)
-								this.$store.commit("updeteChatActive", this.contactActive + 1)
+								setTimeout(()=>{
+									this.$store.commit('updeteFrinend', obj)
+									this.$store.commit("updeteChatActive", this.contactActive + 1)
+								},500)
+								
 								this.setp.sendInput = ''
 							}
-							
-							
-						break;
-						
+
+
+							break;
+
 						case 3:
 							if (this.setp.sendInput == '56') {
 								//正确
 								//保存进度
 								uni.setStorage({
-									key:'progress',
-									data:this.setp.active,
-									success:()=>{
+									key: 'progress',
+									data: this.setp.active,
+									success: () => {
 										this.setp.active = null
-										this.$store.commit('concatFrinend',{
-											name:this.item.name,
-											arr:this.$store.state.pagesPlay.message.friendsFour.map(item=>{
-												item.id = id+1
+										this.$store.commit('concatFrinend', {
+											name: this.item.name,
+											arr: this.$store.state.pagesPlay.message.friendsFour.map(item => {
+												item.id = id + 1
 												return item
 											})
 										})
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
 									}
 								})
-								
-								
+
+								this.setp.sendInput = ''
 							} else {
 								//错误
 								let obj1 = {
@@ -321,32 +362,38 @@
 									obj: {
 										id: id + 1,
 										type: 0,
-										value: this.setp.sendInput
+										value: this.setp.sendInput,
+										isEnd:3
 									}
 								}
 								this.$store.commit('updeteFrinend', obj1)
 								this.$store.commit("updeteChatActive", this.contactActive + 1)
-								
-								
+
+
 								let obj = {
 									name: this.item.name,
 									obj: {
 										id: id + 1,
 										type: 1,
-										value: '嗯，好像哪里不对，老师的题目应该不会那么简单吧。让我再想想.'
+										value: '嗯，好像哪里不对，老师的题目应该不会那么简单吧。让我再想想.',
+										isEnd:3
 									}
 								}
-								this.$store.commit('updeteFrinend', obj)
-								this.$store.commit("updeteChatActive", this.contactActive + 1)
+								setTimeout(()=>{
+									this.$store.commit('updeteFrinend', obj)
+									this.$store.commit("updeteChatActive", this.contactActive + 1)
+								},500)
+								
 								this.setp.sendInput = ''
 							}
-							
-							
-						break;
-						
-					
-					}
 
+
+							break;
+
+
+					}
+					this.scrollTop +=10
+				console.log(this.scrollTop)
 					return
 				}
 
@@ -366,13 +413,13 @@
 				let nowItem = allContacts[active]
 				let nextItem = allContacts[active + 1]
 				//中间穿插的交互
-				if(nowItem.hasOwnProperty("isEnd")){
+				if (nowItem.hasOwnProperty("isEnd")) {
 					this.setp.taiqiuActive = 0
-					this.setp.active = nowItem.isEnd	
+					this.setp.active = nowItem.isEnd
 					return
 				}
 				//结束，下一章
-				if(nowItem.isEnding){
+				if (nowItem.isEnding) {
 					this.setp.isEnding = nowItem.isEnding
 					return
 				}
@@ -387,64 +434,68 @@
 					return
 				}
 				if (nowItem.type == 1 && nextItem.type == 0) {
-					setTimeout(()=>{
+					setTimeout(() => {
 						this.isSend = false
 						this.$store.commit("updeteChatActive", active + 1)
-					},this.getSendTime(nowItem.value))
+					}, this.getSendTime(nowItem.value))
 					return
 				}
 				if (nextItem.type == nowItem.type) {
-					setTimeout(()=>{
+					setTimeout(() => {
 						this.isSend = false
 						this.$store.commit("updeteChatActive", active + 1)
-					},this.getSendTime(nowItem.value))
+					}, this.getSendTime(nowItem.value))
 				} else {
 					this.isSend = true
 				}
-
+				 this.scrollTop +=10
 
 			},
-			getSendTime(value){
+			getSendTime(value) {
 				let length = value.length
 				let time = 0
-				switch(length){
-					case length<=10:
+				switch (length) {
+					case length <= 10:
 						time = 500
-					break;
-					case length<=30:
+						break;
+					case length <= 30:
 						time = 1000
-					break;
-					case length<=50:
+						break;
+					case length <= 50:
 						time = 2000
-					break;
+						break;
 					default:
 						time = 3000
 				}
-				
+
 				return time
 			},
 			imgLoad() {
 				//图片加载完成
 				this.typedEd()
-				uni.pageScrollTo({
-					scrollTop: 9000000,
-					duration: 0
-				});
+				this.scrollTop +=10
+			},
+			showCt(item){
+				if(item.isCt){
+					this.flag.ct = true
+					this.flag.ctConent = item.isCt
+				}
 			},
 			bigImg(src) {
 				uni.navigateTo({
-					url:"/pages/showImg/showImg?src="+src
+					url: "/pages/showImg/showImg?src=" + src
 				})
 				this.showImg.src = src
 				this.showImg.flag = true
 			},
-			goTop(){
+			goTop() {
 				uni.pageScrollTo({
 					scrollTop: 0,
 					duration: 300
 				});
 			},
 			tsClick() {
+				console.log(123)
 				this.flag.jt = true
 			},
 			alertAction(type) {
@@ -453,7 +504,7 @@
 					if (this.setp.active != null) {
 						var id = this.allContacts[this.contactActive].id
 						//进度到那一步了
-						switch(this.setp.active){
+						switch (this.setp.active) {
 							case 1:
 								switch (this.setp.taiqiuActive) {
 									case 0:
@@ -468,7 +519,7 @@
 										this.setp.taiqiuActive++
 										this.$store.commit('updeteFrinend', obj)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 									case 1:
 										let obj1 = {
 											name: this.item.name,
@@ -481,7 +532,7 @@
 										this.setp.taiqiuActive++
 										this.$store.commit('updeteFrinend', obj1)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 									case 2:
 										let obj2 = {
 											name: this.item.name,
@@ -493,10 +544,10 @@
 										}
 										this.$store.commit('updeteFrinend', obj2)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 								}
-									
-							break;
+
+								break;
 							case 2:
 								switch (this.setp.taiqiuActive) {
 									case 0:
@@ -511,7 +562,7 @@
 										this.setp.taiqiuActive++
 										this.$store.commit('updeteFrinend', obj)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 									case 1:
 										let obj1 = {
 											name: this.item.name,
@@ -524,22 +575,22 @@
 										this.setp.taiqiuActive++
 										this.$store.commit('updeteFrinend', obj1)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 									case 2:
 										let obj2 = {
 											name: this.item.name,
 											obj: {
 												id: id + 1,
 												type: 1,
-												value: '真笨，答案是“1234”.'
+												value: '真笨，答案是“124121”.'
 											}
 										}
 										this.$store.commit('updeteFrinend', obj2)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 								}
-									
-							break;
+
+								break;
 							case 3:
 								switch (this.setp.taiqiuActive) {
 									case 0:
@@ -554,7 +605,7 @@
 										this.setp.taiqiuActive++
 										this.$store.commit('updeteFrinend', obj)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 									case 1:
 										let obj1 = {
 											name: this.item.name,
@@ -567,7 +618,7 @@
 										this.setp.taiqiuActive++
 										this.$store.commit('updeteFrinend', obj1)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 									case 2:
 										let obj2 = {
 											name: this.item.name,
@@ -580,7 +631,7 @@
 										this.setp.taiqiuActive++
 										this.$store.commit('updeteFrinend', obj2)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 									case 3:
 										let obj3 = {
 											name: this.item.name,
@@ -593,37 +644,67 @@
 										this.setp.taiqiuActive++
 										this.$store.commit('updeteFrinend', obj3)
 										this.$store.commit("updeteChatActive", this.contactActive + 1)
-									break;
+										break;
 								}
-									
-							break;
-							
+
+								break;
+
 						}
-						
+
 						return
 					}
 				} else {
 					this.flag.jt = false
 				}
+			},
+			upper: function(e) {
+				//console.log(e)
+			},
+			lower: function(e) {
+				//console.log(e)
+				//this.scrollTop = 90000
+			},
+			scroll: function(e) {
+				//console.log(e)
+				this.old.scrollTop = e.detail.scrollTop
+			},
+			goTop: function(e) {
+				this.scrollTop = this.old.scrollTop
+				this.$nextTick(function() {
+					this.scrollTop = 0
+				});
+				uni.showToast({
+					icon: "none",
+					title: "纵向滚动 scrollTop 值已被修改为 0"
+				})
 			}
-		}
+		},
+		
 	}
 </script>
 
 <style lang="less">
 	page {
-		.playbg;
-		background-image: url(/pagesPlay/img/index/addbg.png);
-		background-size: 105% 107%;
-		background-position: 0 0;
-		color: #6BC9E5;
+		background-image: none;
+		background-color: #000;
 	}
-	.hide{
+
+	.hide {
 		opacity: 0;
 	}
+
 	.pagesplay_index_message_chat {
 		position: relative;
-
+		.playbg;
+		background-image: url(/pagesPlay/img/index/addbg.png);
+		background-size: 105% 100%;
+		background-position: 0 0;
+		color: #6BC9E5;
+	
+		height: 92vh;
+		.scroll-Y{
+			height: 70vh;
+		}
 		.showImg {
 			position: fixed;
 			z-index: 100;
@@ -647,13 +728,14 @@
 			width: 70%;
 			padding: 0;
 			z-index: 15;
+
 			.font_family {
 				top: 0;
 			}
 		}
 
 		.items_wrap {
-			padding-bottom: 30vh;
+			padding-bottom: 60rpx;
 			padding-top: 80rpx;
 		}
 
@@ -661,7 +743,7 @@
 
 			box-sizing: border-box;
 			padding: 40rpx;
-
+			padding-top: 60rpx;
 			.item {
 				padding-left: 120rpx;
 				position: relative;
@@ -679,7 +761,7 @@
 				}
 
 				.info {
-					
+
 					padding-right: 20%;
 					font-size: 22rpx;
 					line-height: 30rpx;
@@ -688,7 +770,8 @@
 					.b {
 						color: #6BC9E5;
 					}
-					.bgg{
+
+					.bgg {
 						padding: 15rpx;
 						box-sizing: border-box;
 						border-radius: 2px;
@@ -698,6 +781,7 @@
 						background-position: -200% 0rpx;
 						display: inline-block;
 					}
+
 					color: @blue-q;
 				}
 
@@ -740,9 +824,10 @@
 				}
 			}
 		}
-		.bottom_bg{
+
+		.bottom_bg {
 			position: fixed;
-			bottom: 0rpx;
+			bottom: 14vh;
 			background: #000;
 			box-sizing: border-box;
 			width: 90vw;
@@ -754,27 +839,30 @@
 			background-position: 0vh -1vh;
 			background-repeat: no-repeat;
 		}
-		.top_bg{
+
+		.top_bg {
 			position: fixed;
 			top: 0;
 			left: 0;
 			width: 100vw;
-			height: 10vh;
+			height: 12vh;
 			background: #000;
 			z-index: 10;
 			background-image: url(/pagesPlay/img/index/addbg.png);
-			background-size: 105% 107vh;
+			background-size: 105% 112vh;
 			background-position: 0 0vh;
 		}
+
 		.send {
 			position: fixed;
-			bottom: 30rpx;
+			bottom: 12vh;
 			left: 5vw;
 			z-index: 10;
 			width: 90vw;
 			height: 80px;
 			z-index: 12;
 			box-sizing: border-box;
+
 			.input_sr {
 				background-image: url(/pagesPlay/img/index/addFriend.png);
 				background-size: 200% 200%;
@@ -802,24 +890,26 @@
 				font-size: 26rpx;
 				.omg;
 			}
-			
-			.ending{
+
+			.ending {
 				width: 70%;
 				display: inline-block;
 				padding-left: 10%;
 				text-align: center;
 				position: relative;
 				top: -20rpx;
-				text{
+
+				text {
 					display: inline-block;
 					font-size: 32rpx;
 					letter-spacing: 10rpx;
 				}
-				text:last-child{
+
+				text:last-child {
 					letter-spacing: 1px;
 				}
 			}
-			
+
 			.btn {
 				background: none;
 				display: inline-block;

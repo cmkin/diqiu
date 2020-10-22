@@ -22,7 +22,8 @@ let pagesPlay = {
 				},
 				{
 					type:0,
-					value:'我一直很担心，教授的失踪会不会与前几年的<text style="color:red">科学家集体自杀事件</text>有关。'
+					value:'我一直很担心，教授的失踪会不会与前几年的<text style="color:red">科学家集体自杀事件</text>有关。',
+					isCt:'    2006年，粒子对撞实验出现了种种匪夷所思的结果，13位物理学界最前沿的科学家相继自杀。经有关调查记载，大部分科学家死前都曾留下类似“物理学从来就不存在”的遗言，而他们中的大部分都有参加一个名叫“科学边界”的组织。'
 				},
 				{
 					type:1,
@@ -51,7 +52,7 @@ let pagesPlay = {
 				{
 					type:1,
 					value:'img',
-					img:"https://org.modao.cc/uploads4/images/5449/54494344/v2_qgzknk.jpg"
+					img:require('../static/img/playPassword/zc.jpg'),
 				},
 				{
 					type:1,
@@ -141,7 +142,7 @@ let pagesPlay = {
 				{
 					type:1,
 					value:'img',
-					img:"https://org.modao.cc/uploads4/images/5449/54494344/v2_qgzknk.jpg"
+					img:require('../static/img/playPassword/sss.jpg'),
 				},
 				{
 					type:1,
@@ -173,7 +174,7 @@ let pagesPlay = {
 				{
 					type:1,
 					value:'img',
-					img:'https://org.modao.cc/uploads4/images/5449/54494344/v2_qgzknk.jpg'
+					img:require('../static/img/playPassword/ncj.jpg'),
 				},
 				{
 					type:0,

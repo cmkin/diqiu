@@ -23,7 +23,7 @@
 					</view>
 					<view class="r">
 						<view class="name">{{item.name}}</view>
-						<view class="info" v-if="item.contacts.length" v-html="item.contacts[item.contacts.length-1].value"></view>
+						<view class="info" v-if="item.contacts.length" v-html="item.contacts[contactActive].value"></view>
 					</view>
 				</view>
 			</view>
@@ -54,7 +54,10 @@
 		computed:{
 			friends(){
 				return this.$store.state.pagesPlay.message.friends
-			}
+			},
+			contactActive() {
+				return this.$store.state.pagesPlay.message.chat.active
+			},
 		}
 	}
 </script>
