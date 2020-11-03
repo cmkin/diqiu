@@ -1,6 +1,6 @@
 <template>
 	<view class="g_back">
-		<text @click.native="back()" class="font_family icon-fanhui"></text>
+		<text @tap="back()" class="font_family icon-fanhui"></text>
 		<view class="main">
 			{{ content}}
 		</view>
@@ -19,7 +19,6 @@
 		},
 		methods:{
 			back(){
-				console.log("返回")
 				uni.navigateBack({
 					delta:1
 				})
@@ -37,7 +36,7 @@
 		.font_family{
 			position: absolute;
 			top: 40rpx;
-			left: 60rpx;
+			left: 80rpx;
 			font-size: 24rpx;
 			z-index: 100;
 			color: @blue-q;

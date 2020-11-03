@@ -6,6 +6,12 @@
 				<view class="icon2"></view>
 			</view>
 			<view class="main">
+				
+				<view class="login">
+					<input v-model="password" placeholder-style="color:#fff;" placeholder="输入密码" type="text" value="" />
+					<button @click="login" hover-class="h" type="default">登录</button>
+				</view>
+				
 				<view class="ts" :class="{opacity:flag.ts}">
 					<ts v-if="flag.tsActive==index && flag.ts" v-for="item,index in tsList" class="f" :content="item"></ts>
 					<view class="icon">
@@ -14,13 +20,11 @@
 						</view>
 					</view>
 				</view>
-				<view class="login">
-					<input v-model="password" type="text" value="" />
-					<button @click="login" hover-class="h" type="default">登录</button>
-				</view>
+				
 			</view>
 			
 		</view>
+		
 		
 		
 		
@@ -40,7 +44,7 @@
 	export default{
 		data(){
 			return{
-				password:'wcorz',
+				password:'',//wcorz
 				player:null,
 				flag:{
 					jt:false,
@@ -61,7 +65,7 @@
 			
 			this.player = plus.audio.createPlayer("/static/mp3/bg.mp3")
 			if(this.player.isPaused()){
-				this.player.play()
+				this.player.play() 
 			}
 		},
 		onUnload(){
@@ -144,6 +148,7 @@
 			
 			.main{
 				.ts{
+					margin-top: 100rpx;
 					position: relative;
 					opacity: 0;
 					.f{
@@ -179,26 +184,28 @@
 					background-image: url(/pagesPlay/img/login.png);
 					background-size: 100% 100%;
 					text-align: center;
-					padding:60rpx 80rpx;
+					padding:80rpx 80rpx;
 					padding-bottom: 20rpx;
-					width: 50%;			
+					width: 60%;			
 					margin: auto;
 					input{
 						padding: 20rpx;
 						display: inline-block;
-						background: #fff;
+						color: #fff;
+						font-size: 30rpx;
+						background: linear-gradient(to right,rgba(64, 193, 235,1),rgba(45, 125, 158,1),rgba(35, 95, 121,1));
 					}
 					button{
 						display: block;
 						font-size: 40rpx;
-						color: @blue-s;
+						color: @blue-q;
 						letter-spacing: 20rpx;
 						width: 50%;
 						margin: auto;
 						background: none;
 					}
 					.h{
-						color: @blue-q;
+						color: @blue-s;
 					}
 				}
 			}

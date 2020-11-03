@@ -29,7 +29,7 @@
 		onUnload() {
 			uni.setStorage({
 				key: 'chatContactActive',
-				data: this.contactActive
+				data: this.$store.state.pagesPlay.message.chat.active
 			})
 			uni.setStorage({
 				key: 'chatFriends',
@@ -43,7 +43,7 @@
 			console.log('App Hide')
 			uni.setStorage({
 				key: 'chatContactActive',
-				data: this.contactActive
+				data: this.$store.state.pagesPlay.message.chat.active
 			})
 			uni.setStorage({
 				key: 'chatFriends',

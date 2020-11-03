@@ -18,6 +18,17 @@
 				
 			}
 		},
+		onLoad() {
+			//播放
+			
+			this.player = plus.audio.createPlayer("/static/mp3/bg.mp3")
+			if(this.player.isPaused()){
+				this.player.play() 
+			}
+		},
+		onUnload(){
+			this.player.stop()
+		},
 		components:{
 			message,fonterx
 		}

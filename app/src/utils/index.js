@@ -14,7 +14,8 @@ import Vue from 'vue'
 //全局组件
 
 
-
+import vfinger from 'v-finger-mk42';
+Vue.use(vfinger);
 
 const components = []
 components.forEach(item=>{

@@ -78,34 +78,41 @@
 				border-top: 2px solid @blue-q;
 				color: @blue-q;
 				font-size: 34rpx;
-				font-weight: bold;
-				letter-spacing: 10rpx;
+				letter-spacing: 1rpx;
 				padding: 60rpx 40rpx;
 				text-align: right;
 				.font_family{
-					font-size: 26rpx;
-					margin-right: 20rpx;
+					font-size: 18rpx;
+					margin-right: 10rpx;
+					position: relative;
+					top: -5px;
 				}
 			}
 			
 			.items{
 				padding: 30rpx;
 				.item{
-					margin-bottom: 20rpx;
+					margin-bottom: 40rpx;
 					.icon{
 						background-image: url(/pagesPlay/img/index/wj.png);
 						background-size: 100% 100%;
-						width: 80rpx;
-						height: 80rpx;
+						width: 120rpx;
+						height: 120rpx;
 						display: inline-block;
 					}
 					text{
-						font-weight: bold;
+						
 						color: @blue-q;
-						font-size: 32rpx;
+						font-size: 36rpx;
 						position: relative;
-						top: -30rpx;
-						margin-left: 20rpx;
+						top: -60rpx;
+						margin-left: 40rpx;
+					}
+				}
+				.item:nth-child(2){
+					.icon{
+						background-image: url(/pagesPlay/img/index/yx.png);
+						background-size: 100% 100%;
 					}
 				}
 			}
@@ -117,7 +124,7 @@
 					.tx{
 						width: 80rpx;
 						height: 80rpx;
-						background-image: url(/pagesPlay/img/message/tx-nan.png);
+						background-image: url(/pagesPlay/img/message/nan.png);
 						background-size: 100% 100%;
 						margin-right: 10rpx;
 						position: relative;

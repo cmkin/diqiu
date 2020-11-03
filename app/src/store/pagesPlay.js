@@ -10,7 +10,11 @@ let pagesPlay = {
 			friendsOne:[
 				{
 					type:0,
-					value:'学长好！终于等到你了！<br/>我就知道没有东西可以难倒你！'
+					value:'您已添加SuMo为好友'
+				},
+				{
+					type:0,
+					value:'学长好！终于等到你了！我就知道没有东西可以难倒你！'
 				},
 				{
 					type:1,
@@ -132,8 +136,8 @@ let pagesPlay = {
 				},
 				{
 					type:1,
-					value:'嗯.简单点来说吧,我给你举个例子.你知道<text style="color:red">神射手理论</text>嘛？'
-					
+					value:'嗯.简单点来说吧,我给你举个例子.你知道<text style="color:red">神射手理论</text>嘛？',
+					isCt:'    有一名神枪手，在一个靶子上，每隔10cm打出一个洞。设想这个靶子上生活着一种二维智能生物，它们中的科学家在对自己的宇宙进行观察后，发现了一个伟大的定 律：每隔10cm单位，必然会有一个洞。 它们把这个神枪手一时兴起的随意行为，看成自己宇宙中的铁律。'
 				},
 				{
 					type:0,
@@ -142,7 +146,8 @@ let pagesPlay = {
 				{
 					type:1,
 					value:'img',
-					img:require('../static/img/playPassword/sss.jpg'),
+					img:require('../static/img/playPassword/sssda.jpg'),
+					action:1
 				},
 				{
 					type:1,
@@ -182,7 +187,8 @@ let pagesPlay = {
 				},
 				{
 					type:1,
-					value:'这是火鸡与农场主理论.'
+					value:'这是<text style="color:red;">火鸡与农场主理论</text>.',
+					isCt:'一个农场里有一群火鸡，农场主每天中午12点来给它们喂食。火鸡中的一名科学家观察这个现象，一直观察了近一年都没有出现例外，于是它也发现了自己宇宙中的 伟大定律：每天中午12点，就有食物降临。 它在感恩节早晨向大家宣布了这个定律，但这天中午12点食物没有降临，农场主进来把他们都捉去杀了。'
 				},
 				{
 					type:0,

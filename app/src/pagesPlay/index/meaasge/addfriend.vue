@@ -36,9 +36,9 @@
 		</view>
 		
 		
-		<alertts v-if="flag.zh" :isBtn="false" content="您搜索的账号不存在"></alertts>
+		<alertts v-if="flag.zh" :isBtn="false" fontSize="26rpx"  content="您搜索的账号不存在"></alertts>
 		<alertts v-if="flag.jt" @action="alertAction" content="以下内容涉及剧透"></alertts>
-		<alertts v-if="flag.input" @action="inputAction" type="input"></alertts>
+		<alertts v-if="flag.input" @action="inputAction" placeholder="请输入验证码" type="input"></alertts>
 		<gts style="bottom: 40rpx;right: 25rpx;" @click.native="gtsAlert()"></gts>
 		<ts v-if="flag.ts" class="jttt" :content="setp.title"></ts>
 	</view>
@@ -203,6 +203,7 @@
 					font-size: 30rpx;
 					letter-spacing: 10rpx;
 					font-weight: bold;
+					display: inline-block;
 				}
 			}
 			.ts{
@@ -280,7 +281,7 @@
 		}
 		.jttt{
 			position: fixed;
-			bottom: 20%;
+			bottom: 30%;
 			left: 50%;
 			transform: translateX(-50%);
 			width: auto;

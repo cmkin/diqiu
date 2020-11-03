@@ -1,7 +1,7 @@
 <template>
 	<view :class="{'g_top':position=='top'}" class="g_ts animate__animated animate__zoomIn">
 		<view class="main">
-			<view class="font">
+			<view class="font" :style="styles">
 				<typed :str="content"></typed>
 			</view>
 		</view>
@@ -23,7 +23,8 @@
 			position:{
 				type:String,
 				default:'top'
-			}
+			},
+			styles:{}
 		},
 		components:{
 			typed
@@ -40,7 +41,8 @@
 		width:100%;
 		padding:5px 20rpx;
 		box-sizing: border-box;
-		background-image: url(/assets/imgs/alertts.png);
+		background:linear-gradient(to right , rgba(61, 187, 228,1),rgba(26, 82, 99,1),rgba(12, 37, 44,0.8));
+		//background-image: url(/assets/imgs/alertts.png);
 		background-size: 150% 220%;
 		background-position: 65% 80%;
 		.main{

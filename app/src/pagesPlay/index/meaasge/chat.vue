@@ -12,7 +12,7 @@
 						<view class="info" :class="{'wrap_img':item.value=='img'}">
 							<view class="bgg">
 								<view class="img" v-if="item.value=='img'">
-									<image @click="bigImg(item.img)" @load="imgLoad" mode="widthFix" :src="item.img"></image>
+									<image @click="bigImg(item.img,item.action?item.action:0)" @load="imgLoad" mode="widthFix" :src="item.img"></image>
 								</view>
 								<typed @click.native="showCt(item)" v-else @typedEd="typedEd" nospeend :speend="1" class="b" :str="item.value"></typed>
 								
@@ -50,9 +50,9 @@
 		<fonterx :type="1"></fonterx>
 
 
-		<gts style="bottom: 200rpx;z-index: 1000;" v-if="setp.active" @click.native="tsClick"></gts>
-		<alertts @action="alertAction" v-if="flag.jt" content="以下内容涉及剧透"></alertts>
-		<alertts fontSize="25rpx"  nospeend @action="flag.ct = false" v-if="flag.ct" :content="flag.ctConent"></alertts>
+		<gts style="bottom: 200rpx;right:0rpx;z-index: 1000;" v-if="setp.active" @click.native="tsClick"></gts>
+		<alertts fontSize="28rpx"  @action="alertAction" v-if="flag.jt" content="以下内容涉及剧透"></alertts>
+		<alertts fontSize="22rpx" :mainStyle="{padding:'20rpx',width:'60%'}"  nospeend @action="flag.ct = false" v-if="flag.ct" :content="flag.ctConent"></alertts>
 
 
 
@@ -108,9 +108,10 @@
 				let contacts = this.allContacts
 				let active = this.contactActive
 				let syArr = contacts.slice(active + 1, contacts.length)
-				let str = syArr.length > 0 ?
+				/* let str = syArr.length > 0 ?
 					syArr.filter(item => item.type == 1).length > 0 ? syArr.filter(item => item.type == 1)[0].value : '暂无更多' :
-					'暂无更多'
+					'暂无更多' */
+					let str = syArr.length > 0 ?syArr[0].value:'暂无更多'
 				return str
 			}
 
@@ -226,6 +227,7 @@
 							if (this.setp.sendInput == 'KVAX') {
 								//正确
 								//保存进度
+								this.setp.taiqiuActive = 0
 								uni.setStorage({
 									key: 'progress',
 									data: this.setp.active,
@@ -282,6 +284,7 @@
 							if (this.setp.sendInput == '124121') {
 								//正确
 								//保存进度
+								this.setp.taiqiuActive = 0
 								uni.setStorage({
 									key: 'progress',
 									data: this.setp.active,
@@ -335,9 +338,11 @@
 							break;
 
 						case 3:
+						
 							if (this.setp.sendInput == '56') {
 								//正确
 								//保存进度
+								this.setp.taiqiuActive = 0
 								uni.setStorage({
 									key: 'progress',
 									data: this.setp.active,
@@ -414,7 +419,7 @@
 				let nextItem = allContacts[active + 1]
 				//中间穿插的交互
 				if (nowItem.hasOwnProperty("isEnd")) {
-					this.setp.taiqiuActive = 0
+					
 					this.setp.active = nowItem.isEnd
 					return
 				}
@@ -423,6 +428,14 @@
 					this.setp.isEnding = nowItem.isEnding
 					return
 				}
+				
+				this.scrollTop +=10
+				setTimeout(() => {
+					this.isSend = true
+				//	this.$store.commit("updeteChatActive", active + 1)
+				}, this.getSendTime(nowItem.value))
+				
+				return
 
 				if (!nextItem) {
 					return
@@ -481,9 +494,9 @@
 					this.flag.ctConent = item.isCt
 				}
 			},
-			bigImg(src) {
+			bigImg(src,action) {
 				uni.navigateTo({
-					url: "/pages/showImg/showImg?src=" + src
+					url: "/pages/showImg/showImg?src=" + src + "&action="+action
 				})
 				this.showImg.src = src
 				this.showImg.flag = true
@@ -496,7 +509,13 @@
 			},
 			tsClick() {
 				console.log(123)
-				this.flag.jt = true
+				//this.flag.jt = true
+				if(this.setp.taiqiuActive <=1){
+					this.alertAction('ok')
+				}else{
+					this.flag.jt = true
+				}
+				
 			},
 			alertAction(type) {
 				if (type == 'ok') {
@@ -513,7 +532,8 @@
 											obj: {
 												id: id + 1,
 												type: 0,
-												value: '哈哈，我已经知道答案了，学长还没猜到嘛.试试利用格尺在老师笔记本中画画看.'
+												value: '哈哈，我已经知道答案了，学长还没猜到嘛.试试利用格尺在老师笔记本中画画看.',
+												isEnd:1
 											}
 										}
 										this.setp.taiqiuActive++
@@ -526,7 +546,8 @@
 											obj: {
 												id: id + 1,
 												type: 0,
-												value: '不同的力度，击出的长度不一样哟.'
+												value: '不同的力度，击出的长度不一样哟.',
+												isEnd:1
 											}
 										}
 										this.setp.taiqiuActive++
@@ -539,7 +560,8 @@
 											obj: {
 												id: id + 1,
 												type: 0,
-												value: '学长真笨，答案是“KVAX”啦.'
+												value: '学长真笨，答案是“KVAX”啦.',
+												isEnd:1
 											}
 										}
 										this.$store.commit('updeteFrinend', obj2)
@@ -556,7 +578,8 @@
 											obj: {
 												id: id + 1,
 												type: 1,
-												value: '认真的看看，这些弹孔之间都是有规律的.'
+												value: '认真的看看，这些弹孔之间都是有规律的.',
+												isEnd:2
 											}
 										}
 										this.setp.taiqiuActive++
@@ -569,7 +592,8 @@
 											obj: {
 												id: id + 1,
 												type: 1,
-												value: '其实每行每列的弹孔都是独数.'
+												value: '其实每行每列的弹孔都是独数.',
+												isEnd:2
 											}
 										}
 										this.setp.taiqiuActive++
@@ -582,7 +606,8 @@
 											obj: {
 												id: id + 1,
 												type: 1,
-												value: '真笨，答案是“124121”.'
+												value: '真笨，答案是“124121”.',
+												isEnd:2
 											}
 										}
 										this.$store.commit('updeteFrinend', obj2)
@@ -599,7 +624,8 @@
 											obj: {
 												id: id + 1,
 												type: 1,
-												value: '...嗯，这些米粒数字之间，似乎存在着什么样的规律，让我再想想.'
+												value: '...嗯，这些米粒数字之间，似乎存在着什么样的规律，让我再想想.',
+												isEnd:3
 											}
 										}
 										this.setp.taiqiuActive++
@@ -612,7 +638,8 @@
 											obj: {
 												id: id + 1,
 												type: 1,
-												value: '我发现了，原来后一位数为前一位数乘以3减1.可似乎还有什么地方不对劲.'
+												value: '我发现了，原来后一位数为前一位数乘以3减1.可似乎还有什么地方不对劲.',
+												isEnd:3
 											}
 										}
 										this.setp.taiqiuActive++
@@ -625,7 +652,8 @@
 											obj: {
 												id: id + 1,
 												type: 1,
-												value: '老师真实太聪明了，这些数字都是时间，单位为秒，去掉分钟数，这样规律就出来了.'
+												value: '老师真实太聪明了，这些数字都是时间，单位为秒，去掉分钟数，这样规律就出来了.',
+												isEnd:3
 											}
 										}
 										this.setp.taiqiuActive++
@@ -638,7 +666,8 @@
 											obj: {
 												id: id + 1,
 												type: 1,
-												value: '真笨,答案是"56"'
+												value: '真笨,答案是"56"',
+												isEnd:3
 											}
 										}
 										this.setp.taiqiuActive++
@@ -688,7 +717,7 @@
 		background-image: none;
 		background-color: #000;
 	}
-
+	
 	.hide {
 		opacity: 0;
 	}
@@ -724,8 +753,8 @@
 		.back {
 			position: fixed;
 			top: 60rpx;
-			left: 15%;
-			width: 70%;
+			left: 5%;
+			width: 90%;
 			padding: 0;
 			z-index: 15;
 
@@ -756,7 +785,7 @@
 					top: 0;
 					width: 80rpx;
 					height: 80rpx;
-					background-image: url(/pagesPlay/img/message/nv.png);
+					background-image: url(/pagesPlay/img/message/nan.png);
 					background-size: 100% 100%;
 				}
 
@@ -807,7 +836,7 @@
 				padding-right: 120rpx;
 
 				.tx {
-					background-image: url(/pagesPlay/img/message/nan.png);
+					background-image: url(/pagesPlay/img/message/nv.png);
 					left: auto;
 					right: 20rpx;
 				}
@@ -855,7 +884,7 @@
 
 		.send {
 			position: fixed;
-			bottom: 12vh;
+			bottom: 11vh;
 			left: 5vw;
 			z-index: 10;
 			width: 90vw;
