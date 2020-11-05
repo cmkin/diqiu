@@ -30,8 +30,8 @@
 		
 		<gts @click.native=" flag.ts = true"></gts>
 		
-		<alertts v-if="flag.jt" @action="alertAction" content="以下内容涉及剧透"></alertts>
-		<alertts v-if="flag.error" :isBtn="false" content="指令错误,请重试"></alertts>
+		<alertts  fontSize="28rpx" v-if="flag.jt"  @action="alertAction" content="以下内容涉及剧透"></alertts>
+		<alertts  fontSize="28rpx" v-if="flag.error" :isBtn="false" content="指令错误,请重试"></alertts>
 		
 	</view>
 </template>

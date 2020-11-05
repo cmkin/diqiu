@@ -2,6 +2,7 @@
 	export default {
 		onLaunch: function() {
 			plus.navigator.setFullscreen(true);
+			plus.screen.lockOrientation("portrait-primary"); //锁定
 			console.log('App Launch')
 			uni.getStorage({
 				key:'chatContactActive',

@@ -428,18 +428,42 @@
 					this.setp.isEnding = nowItem.isEnding
 					return
 				}
-				
-				this.scrollTop +=10
-				setTimeout(() => {
-					this.isSend = true
-				//	this.$store.commit("updeteChatActive", active + 1)
-				}, this.getSendTime(nowItem.value))
-				
-				return
-
 				if (!nextItem) {
 					return
 				}
+				this.scrollTop +=10
+				setTimeout(() => {
+					//this.isSend = true
+				//	this.$store.commit("updeteChatActive", active + 1)
+					
+					if (nowItem.type == 1 && nextItem.type == 0) {
+						setTimeout(() => {
+							this.isSend = false
+							this.$store.commit("updeteChatActive", active + 1)
+							this.scrollTop +=10
+						}, this.getSendTime(nowItem.value))
+						return
+					}
+					
+					if (nextItem.type ==0 && nowItem.type==0) {
+						setTimeout(() => {
+							this.isSend = false
+							this.$store.commit("updeteChatActive", active + 1)
+							this.scrollTop +=10
+						}, this.getSendTime(nowItem.value))
+						return
+					} 
+					
+					this.isSend = true
+				
+				}, this.getSendTime(nowItem.value))
+				
+				
+				
+				
+				return
+
+				
 
 				if (nowItem.type == 0 && nextItem.type == 1) {
 					this.isSend = true
