@@ -138,8 +138,8 @@
 					left: 50%;
 					top: 60%;
 					transform: translate(-55%,-50%);
-					width: 420rpx;
-					height: 380rpx;
+					width: 190rpx;
+					height: 185rpx;
 					background-image: url(/pagesPlay/img/login1.gif);
 					background-size: 100% 100%;
 				}
